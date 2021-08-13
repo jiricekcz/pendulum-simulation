@@ -101,7 +101,7 @@ export class Simulator {
         const { sin, cos } = Math;
 
         return sum(0, n, (i) =>
-            (sum(0, i + 1, (k) => cos(φ[ k ]) * φD[ k ] * l[ k ]) ** 2 + sum(0, i, (k) => sin(φ[ k ]) * φD[ k ] * l[ k ]) ** 2) / 2 +
+            (sum(0, i + 1, (k) => cos(φ[ k ]) * φD[ k ] * l[ k ]) ** 2 + sum(0, i + 1, (k) => sin(φ[ k ]) * φD[ k ] * l[ k ]) ** 2) / 2 +
             this.g * sum(0, i + 1, (k) => cos(φ[ k ]) * l[ k ])
         );
     }

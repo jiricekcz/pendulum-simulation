@@ -1,11 +1,11 @@
 import { Simulator, Frame } from "./simulator";
 (<any>window).Simulator = Simulator;
 (<any>window).Frame = Frame;
-
 const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 const ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
 
-const simulator = new Simulator([ 1e-2, 1e-2 ], [ 1, 1 ], [ Math.PI / 4, Math.PI / 3 ], 60, 1000, 10);
+const simulator = new Simulator([ 1e-2, 1e-2], [ 1, 1 ], [ Math.PI / 4, Math.PI / 4 + 0.2 ], 60, 1000, 10);
+(<any>window).simulator = simulator;
 
 const topX = 750;
 const topY = 350;
@@ -27,6 +27,8 @@ function draw() {
         ctx.moveTo(topX + p[ 0 ] * scale, topY + p[ 1 ] * scale);
     }
     ctx.restore();
+
+    ctx.fillRect(10, 300, 50, simulator.H() * 10);
 }
 
 function fillCircle(x: number, y: number, r: number, color = "black"): void {

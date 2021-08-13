@@ -3,7 +3,8 @@ window.Simulator = Simulator;
 window.Frame = Frame;
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-const simulator = new Simulator([ 1, 1, 1 ], [ 1, 1, 1 ], [ Math.PI / 4, Math.PI / 3, Math.PI / 2 ], 60, 1000, 10);
+const simulator = new Simulator([1e-2, 1e-2], [1, 1], [Math.PI / 4, Math.PI / 4 + 0.2], 60, 1000, 10);
+window.simulator = simulator;
 const topX = 750;
 const topY = 350;
 function draw() {
@@ -15,13 +16,14 @@ function draw() {
     ctx.moveTo(topX, topY);
     const scale = 100;
     for (const p of frame.pendulums) {
-        ctx.lineTo(topX + p[ 0 ] * scale, topY + p[ 1 ] * scale);
+        ctx.lineTo(topX + p[0] * scale, topY + p[1] * scale);
         ctx.stroke();
-        fillCircle(topX + p[ 0 ] * scale, topY + p[ 1 ] * scale, 2, "black");
+        fillCircle(topX + p[0] * scale, topY + p[1] * scale, 2, "black");
         ctx.beginPath();
-        ctx.moveTo(topX + p[ 0 ] * scale, topY + p[ 1 ] * scale);
+        ctx.moveTo(topX + p[0] * scale, topY + p[1] * scale);
     }
     ctx.restore();
+    ctx.fillRect(10, 300, 50, simulator.H() * 10);
 }
 function fillCircle(x, y, r, color = "black") {
     ctx.save();

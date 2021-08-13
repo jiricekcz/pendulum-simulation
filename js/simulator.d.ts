@@ -15,6 +15,7 @@ export declare class Simulator {
     protected calculateDdφ(Δt: number): void;
     x(index: number): number;
     y(index: number): number;
+    H(): number;
 }
 export declare class Frame {
     simulator: Simulator;

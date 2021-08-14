@@ -27,7 +27,7 @@
   \pdv{L}{\dot\phi_j} &= \sum_{i=1}^n m_i \pqty{l_j \cos(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k + l_j \sin(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
                       &= \sum_{i=1}^n m_i l_j \pqty{\cos(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k + \sin(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
   \dv{t} \pdv{L}{\dot\phi_j} &= \sum_{i=1}^n m_i l_j \pqty{\cos(\phi_j) \sum_{k=1}^i l_k \pqty{\cos(\phi_k) \ddot\phi_k - \sin(\phi_k) \dot\phi_k^2} - \sin(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k} \\
-                             &+ \sum_{i=1}^n m_i l_j \pqty{\sin(\phi_j) \sum_{k=1}^i l_k \pqty{\sin(\phi_k) \ddot\phi_k + \cos(\phi_k) \dot\phi_k^2} - \cos(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
+                             &+ \sum_{i=1}^n m_i l_j \pqty{\sin(\phi_j) \sum_{k=1}^i l_k \pqty{\sin(\phi_k) \ddot\phi_k + \cos(\phi_k) \dot\phi_k^2} + \cos(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
 \end{align*}
 
 \end{document}

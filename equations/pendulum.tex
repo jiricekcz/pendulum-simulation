@@ -1,0 +1,33 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[top=1cm,bottom=1cm,left=1cm,right=1cm]{geometry}
+\usepackage{amsmath}
+\usepackage{physics}
+
+\renewcommand{\phi}{\varphi}
+
+\begin{document}
+
+\begin{align*}
+  % Cartesian coordinates
+  x_i &= \sum_{k=1}^i l_k \sin(\phi_k) \\
+  y_i &= - \sum_{k=1}^i l_k \cos(\phi_k) \\
+  \dot x_i &= \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k \\
+  \dot y_i &= \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k \\
+  % Energies
+  U &= \sum_{i=1}^n m_i g y_i \\
+  T &= \sum_{i=1}^n \frac{m_i}{2} \pqty{\dot x_i^2 + \dot y_i^2} \\
+  % Lagrangian
+  L &= T - U \\
+    &= \sum_{i=1}^n \frac{m_i}{2} \pqty{\dot x_i^2 + \dot y_i^2} - \sum_{i=1}^n m_i g y_i \\
+    &= \sum_{i=1}^n m_i \pqty{\frac{1}{2} \pqty{\dot x_i^2 + \dot y_i^2} - g y_i} \\
+    &= \sum_{i=1}^n m_i \pqty{\frac{1}{2} \pqty{{\pqty{\sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k}}^2 + {\pqty{\sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k}}^2} + g \sum_{k=1}^i l_k \cos(\phi_k)} \\
+  % Lagrangian derivatives
+  \pdv{L}{\phi_j} &= \sum_{i=1}^n m_i \pqty{-l_j \sin(\phi_j) \dot\phi_j \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k + l_j \cos(\phi_j) \dot\phi_j \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k - g \sum_{k=1}^i l_k \sin(\phi_k)} \\
+  \pdv{L}{\dot\phi_j} &= \sum_{i=1}^n m_i \pqty{l_j \cos(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k + l_j \sin(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
+                      &= \sum_{i=1}^n m_i l_j \pqty{\cos(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k + \sin(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
+  \dv{t} \pdv{L}{\dot\phi_j} &= \sum_{i=1}^n m_i l_j \pqty{\cos(\phi_j) \sum_{k=1}^i l_k \pqty{\cos(\phi_k) \ddot\phi_k - \sin(\phi_k) \dot\phi_k^2} - \sin(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k} \\
+                             &+ \sum_{i=1}^n m_i l_j \pqty{\sin(\phi_j) \sum_{k=1}^i l_k \pqty{\sin(\phi_k) \ddot\phi_k + \cos(\phi_k) \dot\phi_k^2} - \cos(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
+\end{align*}
+
+\end{document}

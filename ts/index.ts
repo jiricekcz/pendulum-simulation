@@ -4,7 +4,8 @@ import { Simulator, Frame } from "./simulator";
 const canvas = <HTMLCanvasElement>document.getElementById("canvas");
 const ctx = <CanvasRenderingContext2D>canvas.getContext("2d");
 
-const simulator = new Simulator([ 1e-2, 1e-2], [ 1, 1 ], [ Math.PI / 4, Math.PI / 4 + 0.2 ], 60, 1000, 10);
+const simulator = new Simulator([ 1, 1], [ 1, 1 ], [ Math.PI / 4, Math.PI / 4 + 0.2 ], 60, 1000, 10);
+// const simulator = new Simulator([ 1], [ 1 ], [ Math.PI / 4 + 0.2 ], 60, 1000, 10);
 (<any>window).simulator = simulator;
 
 const topX = 750;

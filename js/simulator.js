@@ -67,26 +67,14 @@ export class Simulator {
         newφ.forEach((v, i) => this.φ[i] = v);
     }
     calculateDdφ(Δt) {
-        const [n, m, l, φ, φD] = [this.lengths.length, this.masses, this.lengths, this.φ, this.dφ];
+        const [n, m, l, φ, dφ, g] = [this.lengths.length, this.masses, this.lengths, this.φ, this.dφ, this.g];
         const { sin, cos } = Math;
-        const φDD = [];
-        const ა = (k) => l[k] * (cos(φ[k]) * this.ddφ[k] -
-            sin(φ[k]) * φD[k] * φD[k]);
-        const დ = (k) => l[k] * (sin(φ[k]) * this.ddφ[k] +
-            cos(φ[k]) * φD[k] * φD[k]);
-        const გ = (k) => l[k] * cos(φ[k]) * φD[k];
-        const ე = (k) => l[k] * sin(φ[k]) * φD[k];
+        const ddφ = [];
         for (let j = 0; j < n; j++) {
-            const TOHLE = sum(j, n, (i) => m[i] * l[j] * (cos(φ[j]) * sumWithout(0, i + 1, j, ა) +
-                sin(φ[j]) * sumWithout(0, i + 1, j, დ) +
-                cos(φ[j]) * φD[j] * sum(0, i + 1, ე) -
-                sin(φ[j]) * φD[j] * sum(0, i + 1, გ)));
-            const partialLpodleφj = sum(j, n, (i) => m[i] * (sum(0, i + 1, (k) => sin(φ[k]) * φD[k] * l[k]) * φD[j] * l[j] * cos(φ[j]) -
-                sum(0, i + 1, (k) => cos(φ[k]) * φD[k] * l[k]) * φD[j] * l[j] * sin(φ[j]) -
-                this.g * l[j] * sin(φ[j])));
-            φDD[j] = (TOHLE - partialLpodleφj) / (l[j] * l[j] * sum(j, n, (i) => m[i]));
+            const m_j_n = sum(j, n, (i) => m[i]);
+            ddφ[j] = (sum(0, n, (i) => m[i] * sumWithout(0, i + 1, j, (k) => l[k] * (l[j] * (sin(φ[k] - φ[j]) * Math.pow(dφ[k], 2) - cos(φ[k] - φ[j]) * this.ddφ[k]) - g * sin(φ[k])))) - l[j] * g * sin(φ[j]) * m_j_n) / (Math.pow(l[j], 2) * m_j_n);
         }
-        φDD.forEach((v, i) => this.ddφ[i] = v);
+        this.ddφ = ddφ;
     }
     x(index) {
         var sum = 0;
@@ -100,13 +88,12 @@ export class Simulator {
         for (let i = 0; i <= index; i++) {
             sum += Math.cos(this.φ[i]) * this.lengths[i];
         }
-        return -sum;
+        return sum;
     }
     H() {
         const [n, m, l, φ, φD] = [this.lengths.length, this.masses, this.lengths, this.φ, this.dφ];
         const { sin, cos } = Math;
-        return sum(0, n, (i) => (Math.pow(sum(0, i + 1, (k) => cos(φ[k]) * φD[k] * l[k]), 2) + Math.pow(sum(0, i + 1, (k) => sin(φ[k]) * φD[k] * l[k]), 2)) / 2 +
-            this.g * sum(0, i + 1, (k) => cos(φ[k]) * l[k]));
+        return sum(0, n, (i) => m[i] * ((Math.pow(sum(0, i + 1, (k) => cos(φ[k]) * φD[k] * l[k]), 2) + Math.pow(sum(0, i + 1, (k) => sin(φ[k]) * φD[k] * l[k]), 2)) / 2 - this.g * sum(0, i + 1, (k) => cos(φ[k]) * l[k])));
     }
 }
 export class Frame {

@@ -15,6 +15,7 @@ const sumWithout = (a: number, b: number, c: number, f: (x: number) => number) =
     }
     return result;
 }
+
 export class Simulator {
     dφ: Array<number>;
     ddφ: Array<number>;
@@ -50,37 +51,17 @@ export class Simulator {
         newφ.forEach((v, i) => this.φ[ i ] = v);
     }
     protected calculateDdφ(Δt: number): void {
-        const [ n, m, l, φ, φD ] = [ this.lengths.length, this.masses, this.lengths, this.φ, this.dφ ];
+        const [ n, m, l, φ, dφ, g ] = [ this.lengths.length, this.masses, this.lengths, this.φ, this.dφ, this.g ];
         const { sin, cos } = Math;
 
-        const φDD: Array<number> = [];
-        const ა = (k: number) => l[ k ] * (
-            cos(φ[ k ]) * this.ddφ[ k ] -
-            sin(φ[ k ]) * φD[ k ] * φD[ k ]
-        );
-        const დ = (k: number) => l[ k ] * (
-            sin(φ[ k ]) * this.ddφ[ k ] +
-            cos(φ[ k ]) * φD[ k ] * φD[ k ]
-        );
-        const გ = (k: number) => l[ k ] * cos(φ[ k ]) * φD[ k ];
-        const ე = (k: number) => l[ k ] * sin(φ[ k ]) * φD[ k ];
+        const ddφ: Array<number> = [];
 
         for (let j = 0; j < n; j++) {
-            const TOHLE = sum(j, n, (i) => m[ i ] * l[ j ] * (
-                cos(φ[ j ]) * sumWithout(0, i + 1, j, ა) +
-                sin(φ[ j ]) * sumWithout(0, i + 1, j, დ) +
-                cos(φ[ j ]) * φD[ j ] * sum(0, i + 1, ე) -
-                sin(φ[ j ]) * φD[ j ] * sum(0, i + 1, გ)
-            ));
-            const partialLpodleφj = sum(j, n, (i) => m[ i ] * (
-                sum(0, i + 1, (k) => sin(φ[ k ]) * φD[ k ] * l[ k ]) * φD[ j ] * l[ j ] * cos(φ[ j ]) -
-                sum(0, i + 1, (k) => cos(φ[ k ]) * φD[ k ] * l[ k ]) * φD[ j ] * l[ j ] * sin(φ[ j ]) -
-                this.g * l[ j ] * sin(φ[ j ])
-            ));
-            φDD[ j ] = (TOHLE - partialLpodleφj) / (l[ j ] * l[ j ] * sum(j, n, (i) => m[ i ]));
+            const m_j_n = sum(j, n, (i) => m[i]);
+            ddφ[j] = (sum(0, n, (i) => m[i] * sumWithout(0, i + 1, j, (k) => l[k] * (l[j] * (sin(φ[k] - φ[j]) * dφ[k]**2 - cos(φ[k] - φ[j]) * this.ddφ[k]) - g * sin(φ[k])))) - l[j] * g * sin(φ[j]) * m_j_n) / (l[j] ** 2 * m_j_n);
         }
 
-        φDD.forEach((v: number, i: number) => this.ddφ[ i ] = v);
+        this.ddφ = ddφ;
     }
     x(index: number): number {
         var sum = 0;
@@ -94,18 +75,18 @@ export class Simulator {
         for (let i = 0; i <= index; i++) {
             sum += Math.cos(this.φ[ i ]) * this.lengths[ i ];
         }
-        return -sum;
+        return sum;
     }
     H(): number {
         const [ n, m, l, φ, φD ] = [ this.lengths.length, this.masses, this.lengths, this.φ, this.dφ ];
         const { sin, cos } = Math;
 
         return sum(0, n, (i) =>
-            (sum(0, i + 1, (k) => cos(φ[ k ]) * φD[ k ] * l[ k ]) ** 2 + sum(0, i + 1, (k) => sin(φ[ k ]) * φD[ k ] * l[ k ]) ** 2) / 2 +
-            this.g * sum(0, i + 1, (k) => cos(φ[ k ]) * l[ k ])
+                   m[i] * ((sum(0, i + 1, (k) => cos(φ[ k ]) * φD[ k ] * l[ k ]) ** 2 + sum(0, i + 1, (k) => sin(φ[ k ]) * φD[ k ] * l[ k ]) ** 2) / 2 - this.g * sum(0, i + 1, (k) => cos(φ[ k ]) * l[ k ]))
         );
     }
 }
+
 export class Frame {
     readonly pendulums: Array<[ number, number ]> = [];
     constructor(public simulator: Simulator) {

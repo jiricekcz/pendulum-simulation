@@ -105,7 +105,7 @@ export class Simulator {
     H() {
         const [n, m, l, φ, φD] = [this.lengths.length, this.masses, this.lengths, this.φ, this.dφ];
         const { sin, cos } = Math;
-        return sum(0, n, (i) => (Math.pow(sum(0, i + 1, (k) => cos(φ[k]) * φD[k] * l[k]), 2) + Math.pow(sum(0, i, (k) => sin(φ[k]) * φD[k] * l[k]), 2)) / 2 +
+        return sum(0, n, (i) => (Math.pow(sum(0, i + 1, (k) => cos(φ[k]) * φD[k] * l[k]), 2) + Math.pow(sum(0, i + 1, (k) => sin(φ[k]) * φD[k] * l[k]), 2)) / 2 +
             this.g * sum(0, i + 1, (k) => cos(φ[k]) * l[k]));
     }
 }

@@ -6,6 +6,8 @@
 
 \renewcommand{\phi}{\varphi}
 
+\pagenumbering{gobble}
+
 \begin{document}
 
 \begin{align*}
@@ -36,12 +38,15 @@
                       &= \sum_{i=1}^n m_i l_j \sum_{k=1}^i \pqty{l_k \cos(\phi_j) \cos(\phi_k) \dot\phi_k + l_k \sin(\phi_j) l_k \sin(\phi_k) \dot\phi_k} \\
                       &= \sum_{i=1}^n m_i l_j \sum_{k=1}^i l_k \cos(\phi_k - \phi_j) \dot\phi_k \\
   \dv{t} \pdv{L}{\dot\phi_j} &= \sum_{i=1}^n m_i l_j \sum_{k=1}^i l_k \pqty{\cos(\phi_k - \phi_j) \ddot\phi_k - \sin(\phi_k - \phi_j)(\dot\phi_k - \dot\phi_j)\dot\phi_k} \\
-  % \dv{t} \pdv{L}{\dot\phi_j} &= \sum_{i=1}^n m_i l_j \pqty{\cos(\phi_j) \sum_{k=1}^i l_k \pqty{\cos(\phi_k) \ddot\phi_k - \sin(\phi_k) \dot\phi_k^2} - \sin(\phi_j) \sum_{k=1}^i l_k \cos(\phi_k) \dot\phi_k} \\
-  %                            &+ \sum_{i=1}^n m_i l_j \pqty{\sin(\phi_j) \sum_{k=1}^i l_k \pqty{\sin(\phi_k) \ddot\phi_k + \cos(\phi_k) \dot\phi_k^2} + \cos(\phi_j) \sum_{k=1}^i l_k \sin(\phi_k) \dot\phi_k} \\
-  % &= \sum_{i=1}^n m_i l_j \sum_{k=1}^i l_k \pqty{\cos(\phi_j) \pqty{\cos(\phi_k) \ddot\phi_k - \sin(\phi_k) \dot\phi_k^2} - \sin(\phi_j) \cos(\phi_k) \dot\phi_k} \\
-  % &+ \sum_{i=1}^n m_i l_j \sum_{k=1}^i l_k \pqty{\sin(\phi_j) \pqty{\sin(\phi_k) \ddot\phi_k + \cos(\phi_k) \dot\phi_k^2} + \cos(\phi_j) \sin(\phi_k) \dot\phi_k} \\
-  % &= \sum_{i=1}^n m_i l_j \sum_{k=1}^i l_k \pqty{\cos(\phi_j) \cos(\phi_k) \ddot\phi_k - \cos(\phi_j) \sin(\phi_k) \dot\phi_k^2 - \sin(\phi_j) \cos(\phi_k) \dot\phi_k} \\
-  % &+ \sum_{i=1}^n m_i l_j \sum_{k=1}^i l_k \pqty{\sin(\phi_j) \sin(\phi_k) \ddot\phi_k + \sin(\phi_j) \cos(\phi_k) \dot\phi_k^2 + \cos(\phi_j) \sin(\phi_k) \dot\phi_k} \\
+                             &= \sum_{i=j}^n m_i l_j^2 \ddot\phi_j + \sum_{i=1}^n m_i l_j \sum_{\substack{k=1\\k \neq j}}^i l_k \pqty{\cos(\phi_k - \phi_j) \ddot\phi_k - \sin(\phi_k - \phi_j)(\dot\phi_k - \dot\phi_j)\dot\phi_k} \\
+\end{align*}
+\begin{align*}
+  % Lagrangian equation
+  \sum_{i=j}^n m_i l_j^2 \ddot\phi_j &+ \sum_{i=1}^n m_i l_j \sum_{\substack{k=1\\k \neq j}}^i l_k \pqty{\cos(\phi_k - \phi_j) \ddot\phi_k - \sin(\phi_k - \phi_j)(\dot\phi_k - \dot\phi_j)\dot\phi_k} = \sum_{i=1}^n m_i \sum_{k=1}^i l_k \pqty{l_j \sin(\phi_k - \phi_j) \dot\phi_j \dot\phi_k - g \sin(\phi_k)} \\
+  \sum_{i=j}^n m_i l_j^2 \ddot\phi_j &= \sum_{i=1}^n m_i \sum_{k=1}^i l_k \pqty{l_j \sin(\phi_k - \phi_j) \dot\phi_j \dot\phi_k - g \sin(\phi_k)} - \sum_{i=1}^n m_i l_j \sum_{\substack{k=1\\k \neq j}}^i l_k \pqty{\cos(\phi_k - \phi_j) \ddot\phi_k - \sin(\phi_k - \phi_j)(\dot\phi_k - \dot\phi_j)\dot\phi_k} \\
+  \sum_{i=j}^n m_i l_j^2 \ddot\phi_j &= \sum_{i=1}^n m_i \sum_{\substack{k=1\\k \neq j}}^i l_k \pqty{l_j \pqty{\sin(\phi_k - \phi_j) \dot\phi_j \dot\phi_k - \cos(\phi_k - \phi_j) \ddot\phi_k + \sin(\phi_k - \phi_j)(\dot\phi_k - \dot\phi_j)\dot\phi_k} - g \sin(\phi_k)} - \sum_{i=j}^n m_i l_j g \sin(\phi_k) \\
+  \sum_{i=j}^n m_i l_j^2 \ddot\phi_j &= \sum_{i=1}^n m_i \sum_{\substack{k=1\\k \neq j}}^i l_k \pqty{l_j \pqty{\sin(\phi_k - \phi_j) \dot\phi_j^2 - \cos(\phi_k - \phi_j) \ddot\phi_k} - g \sin(\phi_k)} - \sum_{i=j}^n m_i l_j g \sin(\phi_k) \\
+  \ddot\phi_j &= \frac{\sum_{i=1}^n m_i \sum_{\substack{k=1\\k \neq j}}^i l_k \pqty{l_j \pqty{\sin(\phi_k - \phi_j) \dot\phi_j^2 - \cos(\phi_k - \phi_j) \ddot\phi_k} - g \sin(\phi_k)} - \sum_{i=j}^n m_i l_j g \sin(\phi_k)}{\sum_{i=j}^n m_i l_j^2} \\
 \end{align*}
 
 \end{document}

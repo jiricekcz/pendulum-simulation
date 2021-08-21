@@ -57,7 +57,11 @@ export class Simulator {
         const ddφ: Array<number> = [];
 
         for (let j = 0; j < n; j++) {
-            ddφ[j] = (l[j] * sum(0, n, (i) => m[i] * sumWithout(0, i + 1, j, (k) => l[k] * (sin(φ[k] - φ[j]) * dφ[k] ** 2 - cos(φ[k] - φ[j]) * this.ddφ[k]))) - g * sum(0, n, (i) => m[i] * sum(0, i + 1, (k) => l[k] * sin(k)))) / (l[j] ** 2 * sum(j, n, (i) => m[i]));
+            ddφ[j] =
+                (sum(0, n, (i) => m[i] * sumWithout(0, i + 1, j, (k) => l[k] * (sin(φ[k] - φ[j]) * dφ[k] ** 2
+                                                                                - cos(φ[k] - φ[j]) * this.ddφ[k])))
+                 - n * g * sin(φ[j]))
+                / (l[j] * sum(j, n, (i) => m[i]));
         }
 
         this.ddφ = ddφ;

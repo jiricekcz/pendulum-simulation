@@ -60,7 +60,7 @@ export class Simulator {
             ddφ[j] =
                 (sum(0, n, (i) => m[i] * sumWithout(0, i + 1, j, (k) => l[k] * (sin(φ[k] - φ[j]) * dφ[k] ** 2
                                                                                 - cos(φ[k] - φ[j]) * this.ddφ[k])))
-                 - n * g * sin(φ[j]))
+                 - g * sin(φ[j]) * sum(0, n, (k) => m[k]))
                 / (l[j] * sum(j, n, (i) => m[i]));
         }
 
